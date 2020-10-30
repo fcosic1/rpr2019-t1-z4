@@ -15,7 +15,15 @@ public class Supermarket {
         return  artikli;
     }
     public Artikl izbaciArtiklSaKodom(String kod){
-
+        for(int i=0; i<broj; i++){
+            if(artikli[i].getKod().equals(kod)){
+                Artikl novi = new Artikl(artikli[i].getNaziv(), artikli[i].getCijena(), artikli[i].getKod());
+                artikli[i] = null;
+                pomjeriSve(i);
+                return novi;
+            }
+        }
+        return null;
     }
 
     public void pomjeriSve(int pozicija){
