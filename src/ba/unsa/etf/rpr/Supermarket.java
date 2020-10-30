@@ -11,7 +11,20 @@ public class Supermarket {
         }
         return false;
     }
+    public Artikl[] getArtikli(){
+        return  artikli;
+    }
+    public Artikl izbaciArtiklSaKodom(String kod){
 
+    }
+
+    public void pomjeriSve(int pozicija){
+        for(int i=pozicija; i<broj; i++){
+            artikli[i] = artikli[i+1];
+        }
+        artikli[broj] = null;
+        broj--;
+    }
 
 
 }
