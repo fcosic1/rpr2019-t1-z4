@@ -1,42 +1,55 @@
 package ba.unsa.etf.rpr;
 
 public class Korpa {
-private Artikl[] artikli = new Artikl[50];
-private int broj = 0;
-public boolean dodajArtikl(Artikl a){
-    if(broj<50){
-        artikli[broj] = new Artikl(a.getNaziv(), a.getCijena(), a.getKod());
-        broj++;
+private Artikl[] artikli;
+private int brojArtikala;
+public Korpa(){
+    artikli = new Artikl[50];
+    brojArtikala = 0;
+}
+
+public boolean dodajArtikl(Artikl a) throws IllegalAccessException{
+    if(brojArtikala==50) throw new IllegalAccessException("Puna korpa");
+        this.artikli[brojArtikala] = new Artikl(a.getNaziv(), a.getCijena(), a.getKod());
+        brojArtikala++;
         return true;
-    }
-    return false;
 }
 public Artikl[] getArtikli(){
     return artikli;
 }
+
+public int getBrojArtikala(){
+    return brojArtikala;
+}
 public int dajUkupnuCijenuArtikala(){
     int cijena = 0;
-    for(int i=0; i<broj; i++){
-        cijena += artikli[i].getCijena();
+    for(int i=0; i<brojArtikala; i++){
+        cijena += this.artikli[i].getCijena();
     }
     return cijena;
 }
 private void pomjeriSve(int pozicija){
-    for(int i=pozicija; i<broj; i++){
+    for(int i=pozicija; i<brojArtikala; i++){
         artikli[i] = artikli[i+1];
     }
-    artikli[broj] = null;
-    broj--;
+    artikli[brojArtikala] = null;
+    brojArtikala--;
 }
-public Artikl izbaciArtiklSaKodom(String kod){
-    for(int i=0; i<broj; i++){
-        if(artikli[i].getKod().equals(kod)){
-            Artikl novi = new Artikl(artikli[i].getNaziv(), artikli[i].getCijena(), artikli[i].getKod());
-            artikli[i] = null;
-            pomjeriSve(i);
-            return novi;
+public Artikl izbaciArtiklSaKodom(String kod) throws IllegalAccessException{
+    if(brojArtikala == 0) throw new IllegalAccessException("Prazna korpa");
+    Artikl izbaci = null;
+    for(int i=0; i<brojArtikala; i++){
+        if(this.artikli[i].getKod().equals(kod)){
+            izbaci = new Artikl(this.artikli[i].getNaziv(), this.artikli[i].getCijena(), this.artikli[i].getKod());
+            this.artikli[i] = null;
+            for(int j=i; i<brojArtikala-1; j++){
+                this.artikli[j] = this.artikli[j+1];
+            }
+            this.artikli[brojArtikala-1] = null;
+            brojArtikala--;
+            break;
         }
     }
-    return null;
+    return izbaci;
 }
 }
